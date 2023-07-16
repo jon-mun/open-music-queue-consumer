@@ -4,7 +4,7 @@ class PlaylistSongsService {
   #pool;
 
   constructor() {
-    this.pool = new Pool();
+    this.#pool = new Pool();
   }
 
   async getSongsFromPlaylist(playlistId) {
@@ -16,7 +16,7 @@ class PlaylistSongsService {
       values: [playlistId],
     };
 
-    const result = await this.pool.query(query);
+    const result = await this.#pool.query(query);
 
     return result.rows;
   }

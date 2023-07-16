@@ -4,7 +4,7 @@ class PlaylistsService {
   #pool;
 
   constructor() {
-    this.pool = new Pool();
+    this.#pool = new Pool();
   }
 
   async getPlaylistById(id) {
@@ -13,7 +13,7 @@ class PlaylistsService {
       values: [id],
     };
 
-    const result = await this.pool.query(query);
+    const result = await this.#pool.query(query);
 
     if (!result.rows.length) {
       throw new Error('Playlist tidak ditemukan');
