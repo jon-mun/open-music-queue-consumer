@@ -6,9 +6,9 @@ class Listener {
   #mailSender;
 
   constructor(playlistsService, playlistSongsService, mailSender) {
-    this.playlistsService = playlistsService;
-    this.playlistSongsService = playlistSongsService;
-    this.mailSender = mailSender;
+    this.#playlistsService = playlistsService;
+    this.#playlistSongsService = playlistSongsService;
+    this.#mailSender = mailSender;
 
     this.listen = this.listen.bind(this);
   }
@@ -19,17 +19,19 @@ class Listener {
         message.content.toString(),
       );
 
-      const playlist = await this.playlistsService.getPlaylistById(playlistId);
-      const songs = await this.playlistSongsService.getSongsFromPlaylist(
+      const playlist = await this.#playlistsService.getPlaylistById(playlistId);
+      const songs = await this.#playlistSongsService.getSongsFromPlaylist(
         playlistId,
       );
 
       const data = {
-        id: playlist.id,
-        name: playlist.name,
-        songs,
+        playlist: {
+          id: playlist.id,
+          name: playlist.name,
+          songs,
+        },
       };
-      const result = await this.mailSender.sendEmail(
+      const result = await this.#mailSender.sendEmail(
         targetEmail,
         JSON.stringify(data),
       );

@@ -1,21 +1,22 @@
-/* eslint-disable no-underscore-dangle */
 const nodemailer = require('nodemailer');
 
 class MailSender {
+  #transporter;
+
   constructor() {
-    this._transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+    this.#transporter = nodemailer.createTransport({
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_PORT,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        user: process.env.MAIL_ADDRESS,
+        pass: process.env.MAIL_PASSWORD,
       },
     });
   }
 
   sendEmail(targetEmail, content) {
     const message = {
-      from: 'Open Music',
+      from: 'Open Music <jonathan.edmund@gmail.com>',
       to: targetEmail,
       subject: 'Ekspor Playlist',
       text: 'Terlampir hasil dari ekspor playlist',
@@ -27,7 +28,7 @@ class MailSender {
       ],
     };
 
-    return this._transporter.sendMail(message);
+    return this.#transporter.sendMail(message);
   }
 }
 
